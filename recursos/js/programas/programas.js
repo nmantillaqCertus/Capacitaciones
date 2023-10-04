@@ -3,7 +3,16 @@ $(document).ready(function () {
 });
 
 let UserObject;
-let table_Pragramas = new DataTable('#ID_tb_Programas');
+//let table_Programas = new DataTable('#ID_tb_Programas');
+let table_Programas = $('#ID_tb_Programas').DataTable({
+    "language":{
+        "search":"Buscar",
+        "paginate":{
+            "first":"Primero",
+            "last":"ultimo"
+        }
+    }
+});;
 
 function getParam() {
     let url_path = location.href;
@@ -43,5 +52,18 @@ function getParam() {
 }
 
 function iniciarBandeja() {
+
+    //table_Pragramas
+    for(let i=0; i<lista_Programas.length; i++){
+        table_Programas.row.add([
+            "<span>"+lista_Programas[i].Cod_Programa+"</span>",
+            "<span>"+lista_Programas[i].Nombre_Programa+"</span>",
+            "<span>"+lista_Programas[i].Cursos.length+"</span>",
+            "<span>"+lista_Programas[i].Fecha_inicio+"</span>",
+            "<span>"+lista_Programas[i].Fecha_Fin+"</span>",
+            "<span> <span class='btn btn-sm btn-success'> ver programa </span> </span>"
+        ]).draw(true);
+    }
+
     console.log("Bandeja de programas esta lista para usar")
 }

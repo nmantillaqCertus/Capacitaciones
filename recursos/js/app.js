@@ -50,23 +50,74 @@ var lista_Programas = [
     {
         Cod_Programa: "P001",
         Nombre_Programa:"Especialización de Excel",
-        Nro_Cursos:3,
+        Cursos:["C001","C003"],
         Fecha_inicio:"01/10/2023",
         Fecha_Fin:"15/12/2023"
     },
     {
         Cod_Programa: "P002",
         Nombre_Programa:"Especialización de Power BI",
-        Nro_Cursos:2,
+        Cursos:["C001","C002","C003"],
         Fecha_inicio:"01/11/2023",
         Fecha_Fin:"20/12/2023"
     },
     {
         Cod_Programa: "P003",
         Nombre_Programa:"Técnicas de venta",
-        Nro_Cursos:1,
+        Cursos:["C003"],
         Fecha_inicio:"01/11/2023",
         Fecha_Fin:"20/11/2023"
+    }
+]
+
+let lista_Cursos = [
+    {
+        Cod_Curso:"C001",
+        Nombre_Curso:"",
+        Duracion:8,
+        Tiempo:"Horas",
+        Temas:[
+            {
+                Cod_Tema:"T001",
+                Nombre_Tema:""
+            },
+            {
+                Cod_Tema:"T002",
+                Nombre_Tema:""
+            }
+        ]
+    },
+    {
+        Cod_Curso:"C002",
+        Nombre_Curso:"",
+        Duracion:24,
+        Tiempo:"Horas",
+        Temas:[
+            {
+                Cod_Tema:"T001",
+                Nombre_Tema:""
+            },
+            {
+                Cod_Tema:"T002",
+                Nombre_Tema:""
+            }
+        ]
+    },
+    {
+        Cod_Curso:"C003",
+        Nombre_Curso:"",
+        Duracion:24,
+        Tiempo:"Horas",
+        Temas:[
+            {
+                Cod_Tema:"T001",
+                Nombre_Tema:""
+            },
+            {
+                Cod_Tema:"T002",
+                Nombre_Tema:""
+            }
+        ]
     }
 ]
 
