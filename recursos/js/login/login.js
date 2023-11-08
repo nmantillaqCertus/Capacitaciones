@@ -36,16 +36,21 @@ function validarFormulario() {
     return tokenVal;
 }
 
-function iniciarAPP(usuarioLogged){
+function iniciarAPP(usuarioLogged) {
     let userAux = usuarioLogged.usuario.usuario
-    window.location = "./modulos/programas/bandeja.html?U="+userAux;
+    window.location = "./modulos/programas/bandeja.html?U=" + userAux;
 }
 
 function validarUsaurio(usuario, contrasenia) {
 
     let objetoValidado;
+    
 
-    let usuarioRecuperado = lista_Usuario.find(x => x.usuario == usuario);
+    const usuario_final = getUser();
+    
+    //let usuarioRecuperado = lista_Usuario.find(x => x.usuario == usuario);
+
+    let usuarioRecuperado = usuario_final.data;
 
     try {
         if (usuarioRecuperado.usuario.length > 0 && usuarioRecuperado != undefined && usuarioRecuperado != null) {
@@ -101,3 +106,41 @@ function validarUsaurio(usuario, contrasenia) {
 }
 
 
+function getUser() {
+    debugger
+
+    let response;
+    let data_response;
+
+    try {
+
+        //Operacion con DB
+
+        var params = {
+            "url": "http://localhost:8000/api/usuarios",
+            "method": "GET",
+            async: false,
+            "timeout": 0,
+        };
+
+        $.ajax(params).done(function (r) {
+            data_response = r;
+            console.log(r);
+        });
+
+
+        return response = {
+            estado: true,
+            mensajeError: "Ok",
+            data: data_response
+        }
+
+    } catch (error) {
+
+        return response = {
+            estado: false,
+            mensajeError: error,
+            data: {}
+        }
+    }
+}
