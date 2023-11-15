@@ -1,5 +1,8 @@
 
 
+
+
+
 $(".finit").on('click', function () {
     //debugger
     if (validarFormulario()) {
@@ -44,46 +47,60 @@ function iniciarAPP(usuarioLogged) {
 function validarUsaurio(usuario, contrasenia) {
 
     let objetoValidado;
-    
-
-    const usuario_final = getUser();
+    const Roles_Final = getRoles();
+    const usuario_final = getUser(usuario,contrasenia);
     
     //let usuarioRecuperado = lista_Usuario.find(x => x.usuario == usuario);
+    if(usuario_final.estado){
+        let usuarioRecuperado = usuario_final.data;
 
-    let usuarioRecuperado = usuario_final.data;
+        try {
+            if (usuarioRecuperado.usuario.length > 0 && usuarioRecuperado != undefined && usuarioRecuperado != null) {
+    
+                if (usuario_final.estado) {
+    
+                    let userRol = Roles_Final.find(r => r.cod == usuarioRecuperado.id_rol);                    
 
-    try {
-        if (usuarioRecuperado.usuario.length > 0 && usuarioRecuperado != undefined && usuarioRecuperado != null) {
-
-            if (usuarioRecuperado.contrasenia === contrasenia) {
-
-                let userRol = lista_Roles.find(r => r.id == usuarioRecuperado.id_rol);
-
-                objetoValidado = {
-                    existe: true,
-                    contrasenia: true,
-                    usuario: {
-                        nombres: usuarioRecuperado.nombres,
-                        correo: usuarioRecuperado.correo,
-                        dni: usuarioRecuperado.dni,
-                        telefono: usuarioRecuperado.telefono,
-                        usuario: usuarioRecuperado.usuario,
-                        rol: {
-                            nombre: userRol.nombre,
-                            cod: userRol.cod
+                    if(userRol == undefined || userRol == null){
+                        userRol = {}
+                     }else{
+                        userRol = {
+                                    nombre: userRol.nombre,
+                                    cod: userRol.cod
+                                }
+                     }
+    
+                    objetoValidado = {
+                        existe: true,
+                        contrasenia: true,
+                        usuario: {
+                            nombres: usuarioRecuperado.nombres,
+                            correo: usuarioRecuperado.correo,
+                            dni: usuarioRecuperado.dni,
+                            telefono: usuarioRecuperado.telefono,
+                            usuario: usuarioRecuperado.usuario,
+                            rol: userRol
                         }
                     }
+    
+                } else {
+                    objetoValidado = {
+                        existe: true,
+                        contrasenia: false,
+                        usuario: null
+                    }
                 }
-
+    
             } else {
                 objetoValidado = {
-                    existe: true,
+                    existe: false,
                     contrasenia: false,
                     usuario: null
                 }
             }
-
-        } else {
+    
+        } catch (error) {
+            console.log(error);
             objetoValidado = {
                 existe: false,
                 contrasenia: false,
@@ -91,24 +108,36 @@ function validarUsaurio(usuario, contrasenia) {
             }
         }
 
-    } catch (error) {
-        console.log(error);
+    }else {
         objetoValidado = {
             existe: false,
             contrasenia: false,
             usuario: null
         }
     }
-
-
     return objetoValidado;
 
 }
 
+function getRoles(){
+    let respuesta_rol;
+    var settings = {
+        "url": "http://localhost:8000/api/roles",
+        "method": "GET",
+        "async": false,
+        "headers": {
+            "Content-Type": "application/json"
+        }
+    };
 
-function getUser() {
-    debugger
+    $.ajax(settings).done(function (r) {
+        respuesta_rol = r;
+    });    
+    return respuesta_rol;
+}
 
+function getUser(v_user, v_pass) {
+    
     let response;
     let data_response;
 
@@ -116,18 +145,22 @@ function getUser() {
 
         //Operacion con DB
 
-        var params = {
-            "url": "http://localhost:8000/api/usuarios",
-            "method": "GET",
-            async: false,
-            "timeout": 0,
+        var settings = {
+            "url": "http://localhost:8000/api/usuarioOK/",
+            "method": "POST",
+            "async": false,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "data": JSON.stringify({
+                "usuario": v_user,
+                "contrasenia": v_pass
+            }),
         };
 
-        $.ajax(params).done(function (r) {
+        $.ajax(settings).done(function (r) {
             data_response = r;
-            console.log(r);
         });
-
 
         return response = {
             estado: true,
